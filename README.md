@@ -2,7 +2,7 @@
 
 ![Fondo de referencia](extras/background.jpg)
 
-¡Adéntrate en el mundo de Aethelred, un juego de rol de mesa donde la mitología, el Libro de Enoc y un sistema de cartas se entrelazan en una aventura épica!
+¡Adéntrate en el mundo de Aethelred, un juego de rol de "mesa" donde la mitología, antiguos escritos y un sistema de cartas se entrelazan en una aventura épica!
 
 ## Introducción: La Llamada a la Aventura
 
@@ -17,7 +17,7 @@ La Taberna del Dragón Durmiente, un establecimiento de mala fama conocido por s
 ## Elementos del Juego
 
 *   **Exploración y narrativa:** Sumérgete en un mundo rico en detalles, donde la historia y los secretos te esperan en cada esquina.
-*   **Mitología y el Libro de Enoc:** Descubre elementos de la mitología y el Libro de Enoc que dan forma al mundo de Aethelred.
+*   **Mitología y secretos:** Descubre elementos de la mitología y secretos de antiguos escritos que dan forma al mundo de Aethelred.
 *   **Sistema de cartas:** Gestiona tus recursos, habilidades y eventos a través de un sistema de cartas estratégico y dinámico.
 *   **Combate por turnos:** Participa en emocionantes combates por turnos, donde la estrategia y la habilidad serán clave para la victoria.
 *   **Dualidad del bien y el mal:** Explora la eterna lucha entre el bien y el mal, donde tus elecciones tendrán un impacto significativo en el destino del reino.
