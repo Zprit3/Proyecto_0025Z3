@@ -46,4 +46,3 @@ class PartidaSerializer(serializers.ModelSerializer):
         model = Partida
         fields = "__all__"
 
-

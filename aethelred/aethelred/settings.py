@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework',
     'api',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'aethelred.wsgi.application'
+
+ASGI_APPLICATION = 'aethelred.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],  # Usa Redis local
+        },
+    },
+}
 
 
 # Database
@@ -125,3 +137,17 @@ STATIC_URL = '/static/'  # La URL pública para acceder a los archivos estático
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Duración del token de acceso
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Duración del token de refresco
+}
