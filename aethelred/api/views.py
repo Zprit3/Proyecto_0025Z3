@@ -2,21 +2,17 @@ from rest_framework import generics, permissions
 from .models import Jugador, Tarjeta, Inventario, Partida
 from django.contrib.auth.models import User
 from .serializers import JugadorSerializer, TarjetaSerializer, InventarioSerializer, PartidaSerializer, UserSerializer
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token 
-from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
-
-
-class UserList(generics.ListAPIView):  # Solo para listar usuarios
+class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAdminUser]  # Solo el administrador puede ver la lista
+    permission_classes = [permissions.IsAdminUser]
 
-class UserDetail(generics.RetrieveAPIView):  # Para ver detalles de un usuario específico
+class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]  # Solo usuarios autenticados pueden ver sus detalles
+    permission_classes = [permissions.IsAuthenticated]
 
 class UserCreate(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -24,58 +20,54 @@ class UserCreate(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
     def perform_create(self, serializer):
-        print(f"Datos recibidos: {self.request.data}")  # Imprime los datos recibidos
         user = serializer.save()
-        user.set_password(self.request.data['password']) # Usa request.data
+        user.set_password(self.request.data['password'])
         user.save()
 
 class JugadorList(generics.ListCreateAPIView):
     queryset = Jugador.objects.all()
     serializer_class = JugadorSerializer
-    permission_classes = [permissions.AllowAny]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
 class JugadorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Jugador.objects.all()
     serializer_class = JugadorSerializer
-    permission_classes = [permissions.AllowAny]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
 class TarjetaList(generics.ListCreateAPIView):
     queryset = Tarjeta.objects.all()
     serializer_class = TarjetaSerializer
-    permission_classes = [permissions.AllowAny]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated] 
 
 class TarjetaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tarjeta.objects.all()
     serializer_class = TarjetaSerializer
-    permission_classes = [permissions.AllowAny]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated] 
 
 class InventarioList(generics.ListCreateAPIView):
-    queryset = Inventario.objects.all()
+    queryset = Inventario.objects.select_related('jugador', 'tarjeta').all()
     serializer_class = InventarioSerializer
-    permission_classes = [permissions.AllowAny]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated] 
 
 class InventarioDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Inventario.objects.all()
+    queryset = Inventario.objects.select_related('jugador', 'tarjeta').all()
     serializer_class = InventarioSerializer
-    permission_classes = [permissions.AllowAny]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated] 
 
 class PartidaList(generics.ListCreateAPIView):
-    queryset = Partida.objects.all()
+    queryset = Partida.objects.select_related('jugador').all()
     serializer_class = PartidaSerializer
-    permission_classes = [permissions.AllowAny]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
 class PartidaDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Partida.objects.all()
+    queryset = Partida.objects.select_related('jugador').all()
     serializer_class = PartidaSerializer
-    permission_classes = [permissions.AllowAny]
-    
-
-class CustomAuthToken(ObtainAuthToken):
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data,
-                                            context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-
-        token, _ = Token.objects.get_or_create(user=user)  # Utiliza Token.objects
-        return Response({'token': token.key})
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
