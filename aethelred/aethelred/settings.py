@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'api',
     'channels',
     'corsheaders',  # Opcional, para CORS
+    'game_logic',
 ]
 
 MIDDLEWARE = [
